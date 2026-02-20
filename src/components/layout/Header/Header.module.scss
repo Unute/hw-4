@@ -1,0 +1,38 @@
+@use '@styles/style.scss';
+
+.header {
+  // max-width: 100%;
+  // width: 100% !important;
+  height: 90px;
+  background-color: #fff;
+  border-bottom: 2px solid #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  width: 100vw;
+  top: 0;
+  z-index: 100;
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 12px;
+  margin-left: clamp(1rem, 6vw, 6.25rem);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+.icon {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  margin-right: clamp(1rem, 6vw, 6.25rem);
+  justify-content: flex-end;
+}

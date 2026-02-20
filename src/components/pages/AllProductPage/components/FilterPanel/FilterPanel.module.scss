@@ -1,0 +1,43 @@
+@use '@styles/style.scss';
+
+.FilterPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 0 clamp(1rem, 6vw, 6.25rem);
+  margin-top: 3.125rem;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+}
+
+.text {
+  display: flex;
+  margin-top: 3rem;
+  align-items: center;
+}
+
+.totalProducts {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 113%;
+  color: var(--text-primary);
+}
+
+.total {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 100%;
+  margin-left: 1.5rem;
+}
