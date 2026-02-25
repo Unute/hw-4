@@ -31,7 +31,6 @@ export class ProductListStore {
   setSearch = (query: string) => {
     this.searchQuery = query;
     this.currentPage = 1;
-    // this.fetchProducts();
   }
 
   // принимает Option[] — это то, что передаёт MultiDropdown при выборе

@@ -1,20 +1,23 @@
 import s from "./RelatedProducts.module.scss";
-
+import Button from "@/components/UI/Button";
 import Card from "@/components/UI/Card";
 import Loader from "@/components/UI/Loader";
 import type { Product } from "@/types/product";
+import { observer } from "mobx-react-lite";
+
 
 type RelatedProductsProps = {
   relatedProducts: Product[] | undefined;
   navigate: (path: string) => void;
   isLoading?: boolean;
+  countRelated?: number;
+  countRelatedIncrement?: () => void;
 };
 
-const RelatedProducts: React.FC<RelatedProductsProps> = ({
-  relatedProducts,
-  navigate,
-  isLoading,
-}) => {
+const RelatedProducts: React.FC<RelatedProductsProps> = observer(
+  ({relatedProducts, navigate, isLoading, countRelated, countRelatedIncrement}) => {
+
+
   return (
     <div>
       <h2 className={s.title}>Related Products</h2>
@@ -22,7 +25,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
         {isLoading ? (
           <Loader size="l" />
         ) : (
-          relatedProducts?.slice(0, 3).map((product) => {
+          relatedProducts?.slice(0, countRelated).map((product) => {
             const image = product.images[0].url;
             return (
               <Card
@@ -38,8 +41,10 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
           })
         )}
       </div>
+
+      <Button onClick={countRelatedIncrement} className={s.button}>More</Button>
     </div>
   );
-};
+});
 
 export default RelatedProducts;

@@ -6,16 +6,19 @@
 }
 
 .related {
-  display: flex;
-  gap: clamp(1rem, 6vw, 5rem);
-
-  &>* {
-    flex: 1 1 0;
-  }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 6vw, 2rem);
 
   @include respond(sm) {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
     width: 100%;
   }
+}
+
+.button {
+  margin: clamp(1rem, 6vw, 2rem) auto 0;
+  max-width: 9rem;
+  width: 100%;
 }
