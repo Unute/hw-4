@@ -1,22 +1,14 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { observer } from "mobx-react-lite";
 import s from "./Product.module.scss";
 import Pagination from "./components/Pagination";
 import type { ProductProps } from "./types";
-
 import Card from "@/components/UI/Card";
 import Loader from "@/components/UI/Loader";
+import { productListStore } from "@/stores/ProductListStore";
 
-const CARDS_PER_PAGE = 9;
-
-const Product: React.FC<ProductProps> = ({ products, loading }) => {
+const Product: React.FC<ProductProps> = observer(({ products, loading }) => {
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(products.length / CARDS_PER_PAGE);
-  const startIdx = (page - 1) * CARDS_PER_PAGE;
-  const endIdx = startIdx + CARDS_PER_PAGE;
-  const pageProducts = products.slice(startIdx, endIdx);
 
   return (
     <>
@@ -27,7 +19,7 @@ const Product: React.FC<ProductProps> = ({ products, loading }) => {
       ) : (
         <>
           <div className={s.grid}>
-            {pageProducts.map((product) => {
+            {products.map((product) => {
               const image: string = product.images[0].url;
               return (
                 <Card
@@ -43,14 +35,14 @@ const Product: React.FC<ProductProps> = ({ products, loading }) => {
             })}
           </div>
           <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
+            currentPage={productListStore.currentPage}
+            totalPages={productListStore.totalPages}
+            onPageChange={productListStore.setPage}
           />
         </>
       )}
     </>
   );
-};
+});
 
 export default Product;
