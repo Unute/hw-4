@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_TOKEN = import.meta.env.API_TOKEN;
+const API_TOKEN = import.meta.env.VITE_API_TOKEN;
+console.log("API_TOKEN", API_TOKEN);
 
 const baseHeaders = {
   authorization: `${API_TOKEN}`,

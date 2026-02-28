@@ -10,15 +10,10 @@ export class ProductStore {
   loading: boolean = true;
   relatedProducts: Product[] | undefined = undefined;
   relatedLoading: boolean = true;
-  countRelated: number = 3;
 
   constructor(rootStore: RootStore) {
     this._rootStore = rootStore;
     makeAutoObservable(this, { _rootStore: false });
-  }
-
-  countRelatedIncrement = () => {
-    this.countRelated += 3; //сделать локальным
   }
 
   async fetchProduct(documentId: string) {

@@ -7,15 +7,18 @@ import { useStore } from "@/stores/context";
 import { useParams } from "react-router-dom";
 
 import Loader from "@/components/UI/Loader";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { RelatedCountStore } from "./store/RelatedCountStore";
 
 const ProductPage = observer(() => {
   const navigate = useNavigate();
   const { documentId } = useParams<{ documentId: string }>();
   const { productStore } = useStore();
+  const relatedCountStore = useMemo(() => new RelatedCountStore(), []);
 
   useEffect(() => {
     if (documentId) {
+      relatedCountStore.reset();
       productStore.fetchProduct(documentId);
     }
   }, [documentId]);
@@ -24,7 +27,7 @@ const ProductPage = observer(() => {
   const relatedProducts = productStore.relatedProducts;
   const relatedLoading = productStore.relatedLoading;
   const loading = productStore.loading;
-  const countRelated = productStore.countRelated;
+  const countRelated = relatedCountStore.countRelated;
 
   if (loading) {
     return (
@@ -52,7 +55,7 @@ const ProductPage = observer(() => {
         navigate={navigate}
         isLoading={relatedLoading}
         countRelated={countRelated}
-        countRelatedIncrement={productStore.countRelatedIncrement}
+        countRelatedIncrement={relatedCountStore.increment}
       />
     </div>
   );

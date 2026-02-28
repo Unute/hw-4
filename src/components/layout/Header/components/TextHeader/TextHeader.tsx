@@ -1,26 +1,24 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 import s from "./TextHeader.module.scss";
 
 const navItems = [
   { label: "Product", to: "/" },
-  { label: "Categories", to: "categories" },
-  { label: "About us", to: "about-us" },
+  { label: "Categories", to: "/categories" },
+  { label: "About us", to: "/about-us" },
 ];
 
 const TextHeader = () => {
-  const [active, setActive] = useState(0);
+  const { pathname } = useLocation();
 
   return (
     <nav>
       <ul className={s.navList}>
-        {navItems.map((item, idx) =>
+        {navItems.map((item) =>
           <Link
             key={item.label}
             to={item.to}
-            className={`${s.navItem} ${active === idx ? s.active : ""}`}
-            onClick={() => setActive(idx)}
+            className={`${s.navItem} ${pathname === item.to ? s.active : ""}`}
           >
             {item.label}
           </Link>

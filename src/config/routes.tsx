@@ -6,6 +6,7 @@ import ProductPage from "@/components/pages/ProductPage/ProductPage";
 import Cart from "@/components/pages/Cart";
 import Categories from "@/components/pages/Categories/Categories";
 import AboutUs from "@/components/pages/AboutUs";
+import Register from "@/components/pages/Register/Register";
 
 const ErrorBoundary = () => <div>Произошла ошибка приложения</div>;
 
@@ -30,6 +31,10 @@ export const routesConfig: RouteObject[] = [
       {
         path: "about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
       {
         path: "product/:documentId",
