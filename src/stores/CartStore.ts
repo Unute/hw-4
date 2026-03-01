@@ -1,7 +1,9 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import type { Product } from "@/types/product";
 import type { RootStore } from "./RootStore";
-import { getCart, addToCart as apiAddToCart, removeFromCart as apiRemoveFromCart } from "@/api/CartApi";
+import { getCart, addToCart, removeFromCart as apiRemoveFromCart } from "@/api/CartApi";
+import { toJS } from "mobx";
+
 
 export type CartItem = {
   product: Product;
@@ -16,7 +18,7 @@ export class CartStore {
   constructor(rootStore: RootStore) {
     this._rootStore = rootStore;
     makeAutoObservable(this, { _rootStore: false });
-    
+
     reaction(
       () => rootStore.authStore.jwt,
       (jwt) => {
@@ -39,14 +41,17 @@ export class CartStore {
       runInAction(() => { this.items = []; });
     } finally {
       runInAction(() => { this.cartLoading = false; });
+      console.log(toJS(this.items))
+
     }
+
   }
 
   // добавить товар (через API)
   async addToCart(productId: number, quantity = 1) {
     this.cartLoading = true;
     try {
-      await apiAddToCart(productId, quantity);
+      await addToCart(productId, quantity);
       const cartItems = await getCart();
       runInAction(() => {
         this.items = cartItems;
@@ -81,16 +86,30 @@ export class CartStore {
       await apiRemoveFromCart(item.product.id, 1);
       const cartItems = await getCart();
       runInAction(() => {
-        this.items = Array.isArray(cartItems) ? cartItems : [];
+        this.items = cartItems;
       });
     } finally {
       runInAction(() => { this.cartLoading = false; });
     }
   }
 
-  clearCart = () => {
-    this.items = [];
-  };
+  async clearCart() {
+    if (this.items.length === 0) return;
+    this.cartLoading = true;
+    try {
+      const snapshot = [...this.items];
+      await Promise.all(
+        snapshot.map((item) => apiRemoveFromCart(item.product.id, item.quantity))
+      );
+      runInAction(() => {
+        this.items = [];
+      });
+    } finally {
+      runInAction(() => {
+        this.cartLoading = false;
+      });
+    }
+  }
 
   // computed
   get totalCount(): number {

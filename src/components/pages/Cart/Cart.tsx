@@ -8,8 +8,9 @@ import s from "./Cart.module.scss";
 const Cart = observer(() => {
   const navigate = useNavigate();
   const { cartStore } = useStore();
+  const { authStore } = useStore();
 
-  if (cartStore.items.length === 0) {
+  if (cartStore.items.length === 0 && authStore.isAuthenticated) {
     return (
       <div className={s.empty}>
         <Text view="title">Your cart is empty</Text>
