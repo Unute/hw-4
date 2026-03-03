@@ -2,18 +2,15 @@ import type { Product } from "@/types/product";
 import { makeAutoObservable, runInAction } from "mobx";
 import { getProductById } from "@/api/getProductById";
 import { getProductsByCategory } from "@/api/getProductCategory";
-import type { RootStore } from "./RootStore";
 
 export class ProductStore {
-  _rootStore: RootStore;
   product: Product | null = null;
   loading: boolean = true;
   relatedProducts: Product[] | undefined = undefined;
   relatedLoading: boolean = true;
 
-  constructor(rootStore: RootStore) {
-    this._rootStore = rootStore;
-    makeAutoObservable(this, { _rootStore: false });
+  constructor() {
+    makeAutoObservable(this);
   }
 
   async fetchProduct(documentId: string) {

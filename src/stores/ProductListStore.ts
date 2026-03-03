@@ -3,14 +3,10 @@ import type { Product } from "@/types/product";
 import { getAllProducts } from "@/api/getAllProducts";
 import { getCategories } from "@/api/getCategories";
 import type { Option } from "@/components/UI/MultiDropdown";
-import type { RootStore } from "./RootStore";
 
 export class ProductListStore {
-  _rootStore: RootStore;
-
-  constructor(rootStore: RootStore) {
-    this._rootStore = rootStore;
-    makeAutoObservable(this, { _rootStore: false });
+  constructor() {
+    makeAutoObservable(this);
   }
 
   products: Product[] = [];

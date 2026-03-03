@@ -7,10 +7,12 @@ import Card from "@/components/UI/Card";
 import Loader from "@/components/UI/Loader";
 import Button from "@/components/UI/Button";
 import { useStore } from "@/stores/context";
+import { useProductListStore } from "../../context";
 
 const ProductList: React.FC<ProductProps> = observer(({ products, loading }) => {
   const navigate = useNavigate();
-  const {cartStore, productListStore} = useStore();
+  const { cartStore } = useStore();
+  const productListStore = useProductListStore();
 
   return (
     <>

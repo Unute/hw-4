@@ -1,10 +1,10 @@
 import Loader from "@/components/UI/Loader";
-import { useStore } from "@/stores/context"
-import { observer } from "mobx-react-lite";
+import { ProductListStore } from "@/stores/ProductListStore";
+import { observer, useLocalObservable } from "mobx-react-lite";
 import { useEffect } from "react";
 
 const Categories = observer(() => {
-  const { productListStore } = useStore();
+  const productListStore = useLocalObservable(() => new ProductListStore());
 
   useEffect(() => {
     productListStore.fetchCategories();

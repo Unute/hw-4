@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { observer } from "mobx-react-lite";
+import { observer, useLocalObservable } from "mobx-react-lite";
 import s from "./ProductPage.module.scss";
 import ChangedProduct from "./components/ChangedProduct";
 import RelatedProducts from "./components/RelatedProducts";
-import { useStore } from "@/stores/context";
 import { useParams } from "react-router-dom";
 
 import Loader from "@/components/UI/Loader";
 import { useEffect, useMemo } from "react";
 import { RelatedCountStore } from "./store/RelatedCountStore";
+import { ProductStore } from "@/stores/ProductStore";
 
 const ProductPage = observer(() => {
   const navigate = useNavigate();
   const { documentId } = useParams<{ documentId: string }>();
-  const { productStore } = useStore();
+  const productStore = useLocalObservable(() => new ProductStore());
   const relatedCountStore = useMemo(() => new RelatedCountStore(), []);
 
   useEffect(() => {
