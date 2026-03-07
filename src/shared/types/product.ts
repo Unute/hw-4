@@ -12,6 +12,8 @@ export type Product = {
   title: string;
   description: string;
   price: number;
+  discountPercent: number | null;
+  rating: number | null;
   images: ProductImage[];
   productCategory: ProductCategory | null;
 };

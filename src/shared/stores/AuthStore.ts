@@ -24,6 +24,7 @@ export class AuthStore {
   }
 
   init() {
+    if (typeof window === "undefined") return;
     const jwt = localStorage.getItem(JWT_KEY);
     const userJson = localStorage.getItem(USER_KEY);
     if (jwt) {
@@ -46,8 +47,10 @@ export class AuthStore {
       runInAction(() => {
         this.jwt = res.jwt;
         this.user = res.user;
-        localStorage.setItem(JWT_KEY, res.jwt);
-        localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        if (typeof window !== "undefined") {
+          localStorage.setItem(JWT_KEY, res.jwt);
+          localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        }
       });
     } catch (e: any) {
       runInAction(() => {
@@ -68,8 +71,10 @@ export class AuthStore {
       runInAction(() => {
         this.jwt = res.jwt;
         this.user = res.user;
-        localStorage.setItem(JWT_KEY, res.jwt);
-        localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        if (typeof window !== "undefined") {
+          localStorage.setItem(JWT_KEY, res.jwt);
+          localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        }
       });
     } catch (e: any) {
       runInAction(() => {
@@ -85,7 +90,9 @@ export class AuthStore {
   logout() {
     this.jwt = null;
     this.user = null;
-    localStorage.removeItem(JWT_KEY);
-    localStorage.removeItem(USER_KEY);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(JWT_KEY);
+      localStorage.removeItem(USER_KEY);
+    }
   }
 }

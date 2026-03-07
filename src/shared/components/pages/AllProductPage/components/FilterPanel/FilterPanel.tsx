@@ -21,7 +21,7 @@ const FilterPanel = observer(({ total }: FilterPanelProps) => {
           onChange={productListStore.setSearch}
           placeholder="Search product"
         />
-        <Button className={s.button} onClick={() => productListStore.fetchProducts()}>Find now</Button>
+        <Button className={s.button} onClick={() => productListStore.submitSearch()}>Find now</Button>
       </div>
       <MultiDropdown
         options={productListStore.categories}

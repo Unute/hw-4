@@ -13,6 +13,7 @@ export class ProductListStore {
   total: number | undefined = undefined;
   loading: boolean = false;
   searchQuery: string = "";
+  committedSearch: string = ""; // зафиксированный поиск (только при нажатии кнопки)
   selectedCategories: Option[] = []; // выбранные категории в формате MultiDropdown
   categories: Option[] = [];         // все доступные категории для MultiDropdown
   currentPage: number = 1;
@@ -31,7 +32,13 @@ export class ProductListStore {
   //actions
   setSearch = (query: string) => {
     this.searchQuery = query;
+    // Не сбрасываем страницу и не запускаем поиск при каждом символе
+  }
+
+  submitSearch = () => {
+    this.committedSearch = this.searchQuery;
     this.currentPage = 1;
+    this.fetchProducts();
   }
 
   // принимает Option[] — это то, что передаёт MultiDropdown при выборе
@@ -48,6 +55,7 @@ export class ProductListStore {
 
   initFromParams = (params: { search: string; page: number; categoryKeys: string[] }) => {
     this.searchQuery = params.search;
+    this.committedSearch = params.search;
     this.currentPage = params.page;
     this.pendingCategoryKeys = params.categoryKeys;
   }
@@ -66,7 +74,7 @@ export class ProductListStore {
     this.loading = true;
     try {
       const response = await getAllProducts({
-        search: this.searchQuery,
+        search: this.committedSearch,
         // передаём массив key (documentId категории) для фильтрации
         categories: this.selectedCategories.map((o) => o.key),
         page: this.currentPage,

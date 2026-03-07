@@ -1,7 +1,7 @@
 'use client'
 
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { useStore } from "@stores/context";
 import Button from "@UI/Button";
 import Text from "@UI/Text";
@@ -9,7 +9,7 @@ import s from "./Cart.module.scss";
 import CartList from './components/CartList'
 
 const Cart = observer(() => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { cartStore } = useStore();
   const { authStore } = useStore();
 
@@ -17,14 +17,14 @@ const Cart = observer(() => {
     return (
       <div className={s.empty}>
         <Text view="title">Your cart is empty</Text>
-        <Button onClick={() => navigate("/")}>Go to catalog</Button>
+        <Button onClick={() => router.push("/")}>Go to catalog</Button>
       </div>
     );
   } else if (!authStore.isAuthenticated) {
     return (
       <div className={s.empty}>
         <Text view="title">Log in to your account</Text>
-        <Button className={s.ButtonRegister} onClick={() => navigate("/register")}>Log in</Button>
+        <Button className={s.ButtonRegister} onClick={() => router.push("/register")}>Log in</Button>
       </div>
     )
   }

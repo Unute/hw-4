@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { reaction } from "mobx";
 import FilterPanel from "./components/FilterPanel";
 import MainText from "./components/MainText/MainText";
@@ -13,7 +13,6 @@ import { ProductListProvider } from "./context";
 const AllProductPage = observer(() => {
   const productListStore = useLocalObservable(() => new ProductListStore());
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   useEffect(() => {
     const search = searchParams.get("search") ?? "";
@@ -32,7 +31,7 @@ const AllProductPage = observer(() => {
   useEffect(() => {
     const dispose = reaction(
       () => ({
-        search: productListStore.searchQuery,
+        search: productListStore.committedSearch,
         categories: productListStore.selectedCategories.map((o) => o.key).join(","),
         page: productListStore.currentPage,
       }),
@@ -41,11 +40,11 @@ const AllProductPage = observer(() => {
         if (search) params.set("search", search);
         if (categories) params.set("categories", categories);
         if (page > 1) params.set("page", String(page));
-        router.replace(`?${params.toString()}`);
+        window.history.replaceState(null, "", `?${params.toString()}`);
       }
     );
     return dispose;
-  }, [router]);
+  }, []);
 
   return (
     <ProductListProvider value={productListStore}>

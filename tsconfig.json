@@ -26,6 +26,7 @@
       "@stores/*": ["./src/shared/stores/*"],
       "@api/*": ["./src/shared/api/*"],
       "@UI/*": ["./src/shared/UI/*"],
+      "@types/*": ["./src/shared/types/*"]
     }
   },
   "include": [

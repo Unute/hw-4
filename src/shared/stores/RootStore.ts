@@ -8,7 +8,6 @@ export class RootStore {
 
   constructor() {
     this.authStore = new AuthStore();
-    this.authStore.init();
     this.cartStore = new CartStore(this);
   }
 }
