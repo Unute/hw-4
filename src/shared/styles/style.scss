@@ -1,0 +1,63 @@
+@use './mixins' as *;
+@import './Roboto/fonts.css';
+
+
+:root {
+  --font-family: 'Roboto', sans-serif;
+  --space-xxs: 8px;
+  --space-xs: 12px;
+  --space-s: 14px;
+  --space-m: 16px;
+  --space-l: 20px;
+  --space-xl: 24px;
+  --border-radius: 0px;
+  --brand: #518581;
+  --brand-hover: #86AAA7;
+  --brand-active: #487773;
+  --text-secondary: #AFADB5;
+  --text-primary: #000000;
+  --text-accent: #518581;
+  --checkbox-bg-disabled: rgba(255, 255, 255, 0.5);
+  --input-text-disabled: rgba(0, 0, 0, 0.2);
+}
+
+
+
+html,
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #fafafa;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+figure,
+pre {
+  margin: 0;
+}
+
+
+.App {
+  max-width: 1440px;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

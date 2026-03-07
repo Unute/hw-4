@@ -1,0 +1,42 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  max-width: 390px;
+  background-color: #FFFFFF;
+  border: 0px;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  background: #FFF;
+}
+
+.card__img {
+  display: block;
+  background-color: #D9D9D9;
+  height: 100%;
+  width: 100%;
+}
+
+.card__text {
+  padding: var(--space-xl) var(--space-xs) var(--space-xl);
+  font-family: var(--font-family);
+  background-color: #FFFFFF;
+}
+
+.card__caption {
+  margin-bottom: var(--space-xxs);
+}
+
+.card__title {
+  margin-bottom: var(--space-xxs);
+}
+
+.card__content-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xxs);
+  padding: var(--space-l) 0px 0px;
+  background-color: #FFFFFF;
+}

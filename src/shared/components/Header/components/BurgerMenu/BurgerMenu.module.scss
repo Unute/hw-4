@@ -1,0 +1,61 @@
+@use '@styles/mixins' as *;
+
+.burgerBtn {
+  display: none;
+
+  @include respond(sm) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 0.5rem;
+    z-index: 200;
+
+    span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #333;
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+  }
+
+  &.open {
+    span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}
+
+.dropdown {
+  display: none;
+
+  @include respond(sm) {
+    display: block;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100vw;
+    background-color: #fff;
+    border-bottom: 2px solid #f3f3f3;
+    padding: 16px 24px;
+    z-index: 150;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}

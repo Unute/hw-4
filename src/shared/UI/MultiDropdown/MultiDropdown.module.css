@@ -1,0 +1,23 @@
+.option {
+  border: 0px;
+  background: #FFFFFF;
+  padding: 14px 12px;
+  width: 100%;
+  align-items: center;
+  height: 48px;
+  display: flex;
+  font-family: 'Roboto';
+  cursor: pointer;
+}
+
+.option:hover {
+  color: var(--text-secondary);
+}
+
+.option--selected {
+  color: var(--text-accent);
+}
+
+.block__option {
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,30 @@
+$breakpoint-xsm: 375px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+
+@mixin respond($breakpoint) {
+  @if $breakpoint ==xsm {
+    @media (max-width: $breakpoint-xsm) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==sm {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==md {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==lg {
+    @media (max-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+}
