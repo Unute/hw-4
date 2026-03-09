@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react'
+import React from 'react'
 import s from "./../../ProductList.module.scss";
 import Button from "@UI/Button";
 import Card from "@UI/Card";
@@ -9,7 +9,6 @@ import { observer } from "mobx-react-lite";
 import { useStore } from '@/shared/stores/context';
 import type { Product } from "@/shared/types/product";
 import Quantity from './components/Quantity/Quantity';
-import BuyModal from './components/BuyModal/BuyModal';
 
 
 type ProductProps = {
@@ -23,23 +22,8 @@ type ProductProps = {
 const Product: React.FC<ProductProps> = observer(({ product, image, discountedPrice, inCart, setToast }) => {
   const router = useRouter();
   const { cartStore } = useStore();
-  const [showBuyModal, setShowBuyModal] = useState(false);
-
-  const handleBuyConfirm = (qty: number) => {
-    setShowBuyModal(false);
-    setToast(`✅ Покупка оформлена: "${product.title}" x${qty} — $${((discountedPrice ? parseFloat(discountedPrice) : product.price) * qty).toFixed(2)}`);
-  };
-
   return (
     <>
-      {showBuyModal && (
-        <BuyModal
-          product={product}
-          discountedPrice={discountedPrice}
-          onClose={() => setShowBuyModal(false)}
-          onConfirm={handleBuyConfirm}
-        />
-      )}
       <Card
         image={image}
         captionSlot={
@@ -67,29 +51,19 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
         }
         onClick={() => router.push(`/product/${product.documentId}`)}
         actionSlot={
-          <span className={s.actions}>
-            {inCart ? (
-              <Quantity product={product} cartStore={cartStore} setToast={setToast} />
-            ) : (
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  cartStore.addToCart(product.id, 1);
-                  setToast(`Product "${product.title}" added to cart`);
-                }}
-              >
-                Add to Cart
-              </Button>
-            )}
+          inCart ? (
+            <Quantity product={product} cartStore={cartStore} setToast={setToast} />
+          ) : (
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                setShowBuyModal(true);
+                cartStore.addToCart(product.id, 1);
+                setToast(`Product "${product.title}" added to cart`);
               }}
             >
-              Buy Now
+              Add to Cart
             </Button>
-          </span>
+          )
         }
       />
     </>

@@ -5,15 +5,24 @@ import { ProductListStore } from "@stores/ProductListStore";
 import { observer, useLocalObservable } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import type { Option } from "@UI/MultiDropdown";
 
 import s from "./Categories.module.scss";
 
-const Categories = observer(() => {
+type CategoriesProps = {
+  initialCategories?: Option[];
+};
+
+const Categories = observer(({ initialCategories }: CategoriesProps) => {
   const productListStore = useLocalObservable(() => new ProductListStore());
   const router = useRouter();
 
   useEffect(() => {
-    productListStore.fetchCategories();
+    if (initialCategories && initialCategories.length > 0) {
+      productListStore.categories = initialCategories;
+    } else {
+      productListStore.fetchCategories();
+    }
   }, []);
 
   if (productListStore.categories.length === 0) {

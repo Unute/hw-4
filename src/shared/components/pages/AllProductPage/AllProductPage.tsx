@@ -9,9 +9,31 @@ import ProductList from "./components/ProductList/ProductList";
 import { observer, useLocalObservable } from "mobx-react-lite";
 import { ProductListStore } from "@stores/ProductListStore";
 import { ProductListProvider } from "./context";
+import type { Product } from "@/shared/types/product";
+import type { Option } from "@UI/MultiDropdown";
 
-const AllProductPage = observer(() => {
-  const productListStore = useLocalObservable(() => new ProductListStore());
+type AllProductPageProps = {
+  initialProducts?: Product[];
+  initialCategories?: Option[];
+  initialTotal?: number;
+};
+
+const AllProductPage = observer(({ initialProducts, initialCategories, initialTotal }: AllProductPageProps) => {
+  const productListStore = useLocalObservable(() => {
+    const store = new ProductListStore();
+    if (initialProducts) {
+      store.products = initialProducts;
+      store.loading = false;
+    }
+    if (initialCategories) {
+      store.categories = initialCategories;
+      store.categoriesLoaded = true;
+    }
+    if (initialTotal !== undefined) {
+      store.total = initialTotal;
+    }
+    return store;
+  });
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -22,10 +44,16 @@ const AllProductPage = observer(() => {
 
     productListStore.initFromParams({ search, page, categoryKeys });
 
-    productListStore.fetchCategories().then(() => {
+    const hasUrlParams = search || categoryKeys.length > 0 || page > 1;
+
+    if (hasUrlParams || !initialProducts) {
+      productListStore.fetchCategories().then(() => {
+        productListStore.restoreCategoriesFromKeys();
+        productListStore.fetchProducts();
+      });
+    } else if (categoryKeys.length > 0) {
       productListStore.restoreCategoriesFromKeys();
-      productListStore.fetchProducts();
-    });
+    }
   }, []);
 
   useEffect(() => {

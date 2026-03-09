@@ -8,23 +8,39 @@ import RelatedProducts from "./components/RelatedProducts";
 import { useEffect, useMemo } from "react";
 import { RelatedCountStore } from "./store/RelatedCountStore";
 import { ProductStore } from "@stores/ProductStore";
-
+import type { Product } from "@/shared/types/product";
 import Loader from "@UI/Loader";
 
-const ProductPage = observer(() => {
+type ProductPageProps = {
+  initialProduct?: Product | null;
+  initialRelatedProducts?: Product[];
+};
+
+const ProductPage = observer(({ initialProduct, initialRelatedProducts }: ProductPageProps) => {
   const router = useRouter();
   const params = useParams();
   const documentId = params.documentId as string;
-  const productStore = useLocalObservable(() => new ProductStore());
+  const productStore = useLocalObservable(() => {
+    const store = new ProductStore();
+    if (initialProduct) {
+      store.product = initialProduct;
+      store.loading = false;
+    }
+    if (initialRelatedProducts) {
+      store.relatedProducts = initialRelatedProducts;
+      store.relatedLoading = false;
+    }
+    return store;
+  });
   const relatedCountStore = useMemo(() => new RelatedCountStore(), []);
 
   useEffect(() => {
-    if (documentId) {
+    if (documentId && !initialProduct) {
       relatedCountStore.reset();
       productStore.fetchProduct(documentId);
     }
   }, [documentId]);
-  
+
   const product = productStore.product;
   const relatedProducts = productStore.relatedProducts;
   const relatedLoading = productStore.relatedLoading;
@@ -42,7 +58,6 @@ const ProductPage = observer(() => {
   if (!product) {
     return <div className={s.notFound}>Товар не найден</div>;
   }
-
 
   const image = product.images[0].url || "";
 

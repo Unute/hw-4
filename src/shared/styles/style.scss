@@ -1,9 +1,7 @@
 @use './mixins' as *;
-@import './Roboto/fonts.css';
-
 
 :root {
-  --font-family: 'Roboto', sans-serif;
+  --font-family: var(--font-roboto, 'Roboto'), sans-serif;
   --space-xxs: 8px;
   --space-xs: 12px;
   --space-s: 14px;
