@@ -3,6 +3,7 @@
 import Loader from "@UI/Loader";
 import { ProductListStore } from "@stores/ProductListStore";
 import { observer, useLocalObservable } from "mobx-react-lite";
+import { runInAction } from "mobx";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { Option } from "@UI/MultiDropdown";
@@ -19,7 +20,10 @@ const Categories = observer(({ initialCategories }: CategoriesProps) => {
 
   useEffect(() => {
     if (initialCategories && initialCategories.length > 0) {
-      productListStore.categories = initialCategories;
+      runInAction(() => {
+        productListStore.categories = initialCategories;
+        productListStore.categoriesLoaded = true;
+      });
     } else {
       productListStore.fetchCategories();
     }
