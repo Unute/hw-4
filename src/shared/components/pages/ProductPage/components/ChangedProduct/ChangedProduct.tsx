@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
 import s from "./ChangedProduct.module.scss";
 import Button from "@UI/Button";
 import Text from "@UI/Text";
@@ -12,7 +13,8 @@ type ChangedProductProps = {
 };
 
 const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image }) => {
-  const { cartStore } = useStore();
+  const { cartStore, authStore } = useStore();
+  const router = useRouter();
   const inCart = cartStore.isInCart(product.documentId);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -21,6 +23,20 @@ const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image
     const timer = setTimeout(() => setToast(null), 2000);
     return () => clearTimeout(timer);
   }, [toast]);
+
+  const handleCartClick = () => {
+    if (!authStore.isAuthenticated) {
+      router.push('/register');
+      return;
+    }
+    if (inCart) {
+      cartStore.removeFromCart(product.documentId);
+      setToast(`Товар "${product.title}" удалён из корзины`);
+    } else {
+      cartStore.addToCart(product.id);
+      setToast(`Товар "${product.title}" добавлен в корзину`);
+    }
+  };
 
   return (
     <div className={s.content}>
@@ -43,15 +59,7 @@ const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image
         </Text>
         <Button
           className={s.button_cart}
-          onClick={() => {
-            if (inCart) {
-              cartStore.removeFromCart(product.documentId);
-              setToast(`Товар "${product.title}" удалён из корзины`);
-            } else {
-              cartStore.addToCart(product.id);
-              setToast(`Товар "${product.title}" добавлен в корзину`);
-            }
-          }}
+          onClick={handleCartClick}
         >
           {inCart ? "Remove from Cart" : "Add to Cart"}
         </Button>

@@ -21,7 +21,18 @@ type ProductProps = {
 
 const Product: React.FC<ProductProps> = observer(({ product, image, discountedPrice, inCart, setToast }) => {
   const router = useRouter();
-  const { cartStore } = useStore();
+  const { cartStore, authStore } = useStore();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!authStore.isAuthenticated) {
+      router.push('/register');
+      return;
+    }
+    cartStore.addToCart(product.id, 1);
+    setToast(`Product "${product.title}" added to cart`);
+  };
+
   return (
     <>
       <Card
@@ -54,13 +65,7 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
           inCart ? (
             <Quantity product={product} cartStore={cartStore} setToast={setToast} />
           ) : (
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                cartStore.addToCart(product.id, 1);
-                setToast(`Product "${product.title}" added to cart`);
-              }}
-            >
+            <Button onClick={handleAddToCart}>
               Add to Cart
             </Button>
           )
