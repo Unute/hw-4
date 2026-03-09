@@ -52,6 +52,8 @@ export class CartStore {
       runInAction(() => {
         this.items = cartItems;
       });
+    } catch {
+      runInAction(() => { this.items = Array.isArray(this.items) ? this.items : []; });
     } finally {
       runInAction(() => { this.cartLoading = false; });
     }

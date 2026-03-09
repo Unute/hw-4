@@ -16,7 +16,9 @@ export const getCart = async (): Promise<CartItem[]> => {
     headers: getAuthHeaders(),
     cache: 'no-store',
   });
-  return res.json();
+  if (!res.ok) return [];
+  const json = await res.json();
+  return Array.isArray(json) ? json : (json?.data ?? []);
 };
 
 export const addToCart = async (productId: number, quantity: number = 1): Promise<CartItem[]> => {
