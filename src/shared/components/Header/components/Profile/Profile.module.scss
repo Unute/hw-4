@@ -16,11 +16,15 @@
   }
 
   img {
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, filter 0.3s;
   }
 
   &:hover img {
     opacity: 1;
+  }
+
+  :global([data-theme="dark"]) & img {
+    filter: brightness(0) invert(1);
   }
 }
 
@@ -35,7 +39,7 @@
 
 .username {
   font-weight: 500;
-  color: black;
+  color: var(--text-primary);
   font-size: 1rem;
 }
 

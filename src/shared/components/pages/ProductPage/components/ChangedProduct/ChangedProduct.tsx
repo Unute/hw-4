@@ -33,7 +33,7 @@ const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image
       cartStore.removeFromCart(product.documentId);
       setToast(`Товар "${product.title}" удалён из корзины`);
     } else {
-      cartStore.addToCart(product.id);
+      cartStore.addToCart(product);
       setToast(`Товар "${product.title}" добавлен в корзину`);
     }
   };

@@ -1,6 +1,6 @@
 .option {
   border: 0px;
-  background: #FFFFFF;
+  background: var(--bg-surface);
   padding: 14px 12px;
   width: 100%;
   align-items: center;

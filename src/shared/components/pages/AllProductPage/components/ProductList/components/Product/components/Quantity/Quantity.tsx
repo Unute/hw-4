@@ -34,7 +34,7 @@ const Quantity = observer(({product, cartStore, setToast}: QuantityProps) => {
         className={s.quantityBtn}
         onClick={(e) => {
           e.stopPropagation();
-          cartStore.addToCart(product.id, 1);
+          cartStore.addToCart(product, 1);
         }}
       >+</div>
     </span>

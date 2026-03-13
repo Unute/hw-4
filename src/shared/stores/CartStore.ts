@@ -27,89 +27,86 @@ export class CartStore {
     );
   }
 
-  // загрузить корзину с сервера
   async fetchCart() {
     this.cartLoading = true;
     try {
       const data = await getCart();
-      runInAction(() => {
-        this.items = data;
-      });
+      runInAction(() => { this.items = data; });
     } catch {
       runInAction(() => { this.items = []; });
     } finally {
       runInAction(() => { this.cartLoading = false; });
     }
-
   }
 
-  // добавить товар (через API)
-  async addToCart(productId: number, quantity = 1) {
-    this.cartLoading = true;
+  async addToCart(product: Product, quantity = 1) {
+    const prev = [...this.items];
+    runInAction(() => {
+      const existing = this.items.find((i) => i.product.id === product.id);
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        this.items.push({ product, quantity });
+      }
+    });
     try {
-      await addToCart(productId, quantity);
+      await addToCart(product.id, quantity);
       const cartItems = await getCart();
-      runInAction(() => {
-        this.items = cartItems;
-      });
+      runInAction(() => { this.items = cartItems; });
     } catch {
-      runInAction(() => { this.items = Array.isArray(this.items) ? this.items : []; });
-    } finally {
-      runInAction(() => { this.cartLoading = false; });
+      runInAction(() => { this.items = prev; });
     }
   }
 
-  // удалить товар полностью (через API)
   async removeFromCart(documentId: string) {
     const item = this.items.find((i) => i.product.documentId === documentId);
     if (!item) return;
-    this.cartLoading = true;
+    const prev = [...this.items];
+    runInAction(() => {
+      this.items = this.items.filter((i) => i.product.documentId !== documentId);
+    });
     try {
       await apiRemoveFromCart(item.product.id, item.quantity);
       const cartItems = await getCart();
-      runInAction(() => {
-        this.items = cartItems;
-      });
-    } finally {
-      runInAction(() => { this.cartLoading = false; });
+      runInAction(() => { this.items = cartItems; });
+    } catch {
+      runInAction(() => { this.items = prev; });
     }
   }
 
-  // уменьшить на 1 (через API)
   async decreaseQuantity(documentId: string) {
     const item = this.items.find((i) => i.product.documentId === documentId);
     if (!item) return;
-    this.cartLoading = true;
+    const prev = [...this.items];
+    runInAction(() => {
+      if (item.quantity <= 1) {
+        this.items = this.items.filter((i) => i.product.documentId !== documentId);
+      } else {
+        item.quantity -= 1;
+      }
+    });
     try {
       await apiRemoveFromCart(item.product.id, 1);
       const cartItems = await getCart();
-      runInAction(() => {
-        this.items = cartItems;
-      });
-    } finally {
-      runInAction(() => { this.cartLoading = false; });
+      runInAction(() => { this.items = cartItems; });
+    } catch {
+      runInAction(() => { this.items = prev; });
     }
   }
 
   clearCart = async () => {
     if (this.items.length === 0) return;
-    this.cartLoading = true;
+    const prev = [...this.items];
+    runInAction(() => { this.items = []; });
     try {
-      const snapshot = [...this.items];
       await Promise.all(
-        snapshot.map((item) => apiRemoveFromCart(item.product.id, item.quantity))
+        prev.map((item) => apiRemoveFromCart(item.product.id, item.quantity))
       );
-      runInAction(() => {
-        this.items = [];
-      });
-    } finally {
-      runInAction(() => {
-        this.cartLoading = false;
-      });
+    } catch {
+      runInAction(() => { this.items = prev; });
     }
   }
 
-  // computed
   get totalCount(): number {
     return this.items.reduce((sum, item) => sum + item.quantity, 0);
   }

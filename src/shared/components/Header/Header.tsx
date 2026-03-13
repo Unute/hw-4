@@ -7,6 +7,7 @@ import BurgerMenu from "./components/BurgerMenu/BurgerMenu";
 import TextHeader from "./components/TextHeader/TextHeader";
 import CartHeader from "./components/CartHeader";
 import Profile from "./components/Profile/Profile";
+import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
 
 const Header = observer(() => {
 
@@ -22,6 +23,7 @@ const Header = observer(() => {
       </div>
 
       <div className={s.icon}>
+        <ThemeToggle />
         <CartHeader />
         <Profile />
       </div>

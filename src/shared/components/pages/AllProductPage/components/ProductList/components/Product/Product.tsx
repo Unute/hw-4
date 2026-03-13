@@ -29,7 +29,7 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
       router.push('/register');
       return;
     }
-    cartStore.addToCart(product.id, 1);
+    cartStore.addToCart(product, 1);
     setToast(`Product "${product.title}" added to cart`);
   };
 

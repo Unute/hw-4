@@ -22,7 +22,7 @@
       display: block;
       width: 24px;
       height: 2px;
-      background-color: #333;
+      background-color: var(--text-primary);
       border-radius: 2px;
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
@@ -52,8 +52,8 @@
     top: 60px;
     left: 0;
     width: 100vw;
-    background-color: #fff;
-    border-bottom: 2px solid #f3f3f3;
+    background-color: var(--bg-surface);
+    border-bottom: 2px solid var(--border-color);
     padding: 16px 24px;
     z-index: 150;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -66,5 +66,5 @@
   gap: 4px;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-color);
 }

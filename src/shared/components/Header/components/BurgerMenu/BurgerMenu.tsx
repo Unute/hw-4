@@ -5,6 +5,7 @@ import TextHeader from "../TextHeader/TextHeader";
 import CartHeader from "../CartHeader/CartHeader";
 import s from "./BurgerMenu.module.scss";
 import Profile from "../Profile/Profile";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 const BurgerMenu = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ const BurgerMenu = () => {
           <div className={s.actions}>
             <CartHeader showLabel onClose={() => setOpen(false)} />
             <Profile showLabel onClose={() => setOpen(false)} />
+            <ThemeToggle showLabel onClose={() => setOpen(false)} />
           </div>
         </div>
       )}

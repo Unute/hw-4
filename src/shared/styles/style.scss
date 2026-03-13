@@ -17,6 +17,22 @@
   --text-accent: #518581;
   --checkbox-bg-disabled: rgba(255, 255, 255, 0.5);
   --input-text-disabled: rgba(0, 0, 0, 0.2);
+  --bg-primary: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --border-color: #f3f3f3;
+}
+
+[data-theme="dark"] {
+  --text-primary: #e8e8e8;
+  --text-secondary: #888888;
+  --text-accent: #86AAA7;
+  --checkbox-bg-disabled: rgba(255, 255, 255, 0.15);
+  --input-text-disabled: rgba(255, 255, 255, 0.2);
+  --bg-primary: #1a1a1a;
+  --bg-surface: #252525;
+  --bg-elevated: #2f2f2f;
+  --border-color: #3a3a3a;
 }
 
 
@@ -28,7 +44,8 @@ body {
   padding: 0;
   min-height: 100vh;
   width: 100vw;
-  background-color: #fafafa;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 

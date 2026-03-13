@@ -1,6 +1,6 @@
 .input__wrapper {
-  border: 0px;
-  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
   padding: 16px 12px;
   width: 100%;
   align-items: center;
@@ -20,15 +20,17 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
+  background: transparent;
+  color: var(--text-primary);
 }
 
 .input:disabled {
-  background: #FFFFFF;
-  color: #AFADB5;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
 }
 
 .input::placeholder {
-  color: #AFADB5;
+  color: var(--text-secondary);
 }
 
 .input:focus {

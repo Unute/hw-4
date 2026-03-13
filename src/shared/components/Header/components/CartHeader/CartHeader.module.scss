@@ -11,6 +11,14 @@
   transition: all 0.3s ease;
   text-decoration: none;
 
+  img {
+    transition: filter 0.3s;
+  }
+
+  :global([data-theme="dark"]) & img {
+    filter: brightness(0) invert(1);
+  }
+
   &:hover {
     background: #86AAA7;
   }

@@ -12,6 +12,7 @@ export const RootStoreProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   useEffect(() => {
     rootStore.authStore.init();
+    rootStore.themeStore.init();
   }, []);
 
   return (
