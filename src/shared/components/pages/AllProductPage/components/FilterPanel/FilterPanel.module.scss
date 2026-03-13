@@ -8,6 +8,10 @@
   padding: 0 clamp(1rem, 6vw, 6.25rem);
   margin-top: 3.125rem;
 
+  @include respond(lg) {
+    padding: 0 1.5rem;
+  }
+
   @include respond(md) {
     padding: 0 1rem;
   }
