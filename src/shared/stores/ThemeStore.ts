@@ -9,8 +9,7 @@ export class ThemeStore {
 
   init() {
     const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.setDark(saved === 'dark' || (!saved && prefersDark));
+    this.setDark(saved === 'dark');
   }
 
   setDark(value: boolean) {
