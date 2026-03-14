@@ -1,0 +1,20 @@
+@use '@styles/mixins' as *;
+
+.priceDiscounted {
+  color: var(--brand-active);
+  font-weight: 700;
+}
+
+.priceOriginal {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}
+
+.discountBadge {
+  background: var(--brand-active);
+  color: #fff;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.8em;
+}

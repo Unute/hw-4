@@ -4,12 +4,15 @@ import { useRouter } from "next/navigation";
 import s from "./ChangedProduct.module.scss";
 import Button from "@UI/Button";
 import Text from "@UI/Text";
-import type { Product } from "@/shared/types/product";
+import type { Product, ProductImage } from "@/shared/types/product";
 import { useStore } from "@stores/context";
+import Quantity from "@ProductComponents/Quantity/Quantity";
+import Price from "@ProductComponents/Price/Price";
+
 
 type ChangedProductProps = {
   product: Product;
-  image: string;
+  image: ProductImage[];
 };
 
 const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image }) => {
@@ -17,6 +20,9 @@ const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image
   const router = useRouter();
   const inCart = cartStore.isInCart(product.documentId);
   const [toast, setToast] = useState<string | null>(null);
+  const discountedPrice = product.discountPercent
+    ? (product.price * (1 - product.discountPercent / 100)).toFixed(2)
+    : null;
 
   useEffect(() => {
     if (!toast) return;
@@ -24,45 +30,65 @@ const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image
     return () => clearTimeout(timer);
   }, [toast]);
 
-  const handleCartClick = () => {
+  const handleAddToCart = () => {
     if (!authStore.isAuthenticated) {
       router.push('/register');
       return;
     }
-    if (inCart) {
-      cartStore.removeFromCart(product.documentId);
-      setToast(`Товар "${product.title}" удалён из корзины`);
-    } else {
-      cartStore.addToCart(product);
-      setToast(`Товар "${product.title}" добавлен в корзину`);
-    }
+    cartStore.addToCart(product);
+    setToast(`Товар "${product.title}" добавлен в корзину`);
   };
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const incrementImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % image.length);
+  }
+
+  const decrementImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + image.length) % image.length);
+  }
 
   return (
     <div className={s.content}>
       {toast && <div className={s.toast}>{toast}</div>}
-      <img src={image} alt={product.title} className={s.image} />
+      <div className={s.imageContainer}>
+        <button className={s.leftBtn} onClick={decrementImage}>
+          {"<"}
+        </button>
+        <img src={image[currentImageIndex]?.url} alt={product.title} className={s.image} />
+        <button className={s.rightBtn} onClick={incrementImage}>
+          {">"}
+        </button>
+      </div>
+
       <div className={s.info}>
         <Text view="title" weight="bold">
           {product.title}
         </Text>
-        {product.productCategory && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Text view="p-14" color="secondary">
-            {product.productCategory.title}
+            {product?.productCategory?.title}
           </Text>
-        )}
+          <span className={s.rating}>⭐ {product.rating}</span>
+        </div>
         <Text view="p-16" color="secondary" className={s.description}>
           {product.description}
         </Text>
-        <Text view="p-20" weight="bold">
-          ${product.price}
-        </Text>
-        <Button
-          className={s.button_cart}
-          onClick={handleCartClick}
-        >
-          {inCart ? "Remove from Cart" : "Add to Cart"}
-        </Button>
+        <span className={s.price}>
+          {discountedPrice ? (
+            <Price price={product.price} discountPercent={product.discountPercent} />
+          ) : (
+            <Text view="p-20" weight="bold">${product.price}</Text>
+          )}
+        </span>
+        {inCart ? (
+          <Quantity product={product} cartStore={cartStore} setToast={setToast} />
+        ) : (
+          <Button className={s.button_cart} onClick={handleAddToCart}>
+            Add to Cart
+          </Button>
+        )}
       </div>
     </div>
   );

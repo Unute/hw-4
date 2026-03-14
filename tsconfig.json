@@ -26,7 +26,8 @@
       "@stores/*": ["./src/shared/stores/*"],
       "@api/*": ["./src/shared/api/*"],
       "@UI/*": ["./src/shared/UI/*"],
-      "@types/*": ["./src/shared/types/*"]
+      "@types/*": ["./src/shared/types/*"],
+      "@ProductComponents/*": ["./src/shared/components/pages/AllProductPage/components/ProductList/components/Product/components/*"]
     }
   },
   "include": [

@@ -9,6 +9,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from '@/shared/stores/context';
 import type { Product } from "@/shared/types/product";
 import Quantity from './components/Quantity/Quantity';
+import Price from './components/Price/Price';
 
 
 type ProductProps = {
@@ -40,9 +41,7 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
         captionSlot={
           <span className={s.caption}>
             {product.productCategory?.title}
-            {product.rating != null && (
-              <span className={s.rating}>⭐ {product.rating}</span>
-            )}
+            <span className={s.rating}>⭐ {product.rating}</span>
           </span>
         }
         title={product.title}
@@ -50,11 +49,7 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
         contentSlot={
           <span className={s.price}>
             {discountedPrice ? (
-              <>
-                <span className={s.priceDiscounted}>${discountedPrice}</span>
-                <span className={s.priceOriginal}>${product.price}</span>
-                <span className={s.discountBadge}>-{product.discountPercent}%</span>
-              </>
+              <Price price={product.price} discountPercent={product.discountPercent} />
             ) : (
               <span>${product.price}</span>
             )}

@@ -59,8 +59,7 @@ const ProductPage = observer(({ initialProduct, initialRelatedProducts }: Produc
     return <div className={s.notFound}>Товар не найден</div>;
   }
 
-  const image = product.images[0].url || "";
-
+  const image = product.images || [""];
   return (
     <div className={s.page}>
       <button className={s.back} onClick={() => router.back()}>
