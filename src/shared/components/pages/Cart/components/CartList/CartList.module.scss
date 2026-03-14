@@ -1,0 +1,106 @@
+@use '@styles/mixins' as *;
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+
+  @include respond(sm) {
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+    gap: 12px;
+  }
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+
+  @include respond(sm) {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+  }
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: var(--border-color);
+  }
+}
+
+.subtotal {
+  min-width: 64px;
+  text-align: right;
+
+  @include respond(sm) {
+    text-align: left;
+    min-width: unset;
+  }
+}
+
+.remove {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  @include respond(sm) {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--bg-elevated);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

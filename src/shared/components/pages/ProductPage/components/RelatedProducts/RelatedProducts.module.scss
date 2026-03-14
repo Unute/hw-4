@@ -1,0 +1,24 @@
+@use '@styles/mixins' as *;
+
+.title {
+  margin-top: clamp(0.5rem, 4vw, 1rem);
+  margin-bottom: clamp(1rem, 6vw, 2rem);
+}
+
+.related {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 6vw, 2rem);
+
+  @include respond(sm) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+}
+
+.button {
+  margin: clamp(1rem, 6vw, 2rem) auto 0;
+  max-width: 9rem;
+  width: 100%;
+}

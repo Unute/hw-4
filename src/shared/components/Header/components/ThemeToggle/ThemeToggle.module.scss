@@ -1,0 +1,35 @@
+.themeBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--brand-hover);
+    color: #fff;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.withLabel {
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 10px 8px;
+  width: 100%;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 1.125rem;
+  color: var(--text-primary);
+}

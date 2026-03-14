@@ -1,0 +1,40 @@
+@use '@styles/mixins' as *;
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0 7rem 0;
+}
+
+.pageBtn {
+  font-family: 'Eudoxus Sans', sans-serif;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1.125rem;
+  color: #333;
+  transition: background 0.2s, color 0.2s;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background: var(--brand-hover);
+    color: #fff;
+  }
+}
+
+.activePage {
+  @extend .pageBtn;
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+  cursor: default;
+}
+
+.leftButton {
+  margin-right: 1rem;
+}
+
+.rightButton {
+  margin-left: 1rem;
+}
