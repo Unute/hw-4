@@ -12,7 +12,7 @@ import PurchaseModal from './components/PurchaseModal/PurchaseModal';
 
 const Cart = observer(() => {
   const router = useRouter();
-  const { cartStore, authStore } = useStore();
+  const { cartStore, authStore, purchaseStore } = useStore();
   const [toast, setToast] = useState<string | null>(null);
   const [purchaseTarget, setPurchaseTarget] = useState<'all' | string | null>(null);
 
@@ -25,10 +25,12 @@ const Cart = observer(() => {
   const handleConfirmPurchase = async () => {
     if (!purchaseTarget) return;
     if (purchaseTarget === 'all') {
+      purchaseStore.recordPurchase([...cartStore.items]);
       setToast('Successfully purchased all items!');
       await cartStore.clearCart();
     } else {
       const item = cartStore.items.find((i) => i.product.documentId === purchaseTarget);
+      if (item) purchaseStore.recordPurchase([item]);
       setToast(`Successfully purchased "${item?.product.title}"!`);
       await cartStore.removeFromCart(purchaseTarget);
     }
