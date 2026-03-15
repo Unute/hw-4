@@ -8,6 +8,7 @@ import type { Product, ProductImage } from "@/shared/types/product";
 import { useStore } from "@stores/context";
 import Quantity from "@ProductComponents/Quantity/Quantity";
 import Price from "@ProductComponents/Price/Price";
+import ChangedProductImage from "./components/ChangedProductImage/ChangedProductImage";
 
 
 type ChangedProductProps = {
@@ -39,28 +40,11 @@ const ChangedProduct: React.FC<ChangedProductProps> = observer(({ product, image
     setToast(`Товар "${product.title}" добавлен в корзину`);
   };
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const incrementImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % image.length);
-  }
-
-  const decrementImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + image.length) % image.length);
-  }
-
   return (
     <div className={s.content}>
       {toast && <div className={s.toast}>{toast}</div>}
-      <div className={s.imageContainer}>
-        <button className={s.leftBtn} onClick={decrementImage}>
-          {"<"}
-        </button>
-        <img src={image[currentImageIndex]?.url} alt={product.title} className={s.image} />
-        <button className={s.rightBtn} onClick={incrementImage}>
-          {">"}
-        </button>
-      </div>
+
+      <ChangedProductImage image={image} product={product}/>
 
       <div className={s.info}>
         <Text view="title" weight="bold">

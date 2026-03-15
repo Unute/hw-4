@@ -79,6 +79,23 @@
   }
 }
 
+.buy {
+  padding: 6px 14px;
+  border: 1px solid var(--brand-active);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--brand-active);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--brand-active);
+    color: #fff;
+  }
+}
+
 .remove {
   background: transparent;
   border: none;

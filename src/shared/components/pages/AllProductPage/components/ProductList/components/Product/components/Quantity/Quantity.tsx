@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+
 import { observer } from "mobx-react-lite";
 import type { Product } from "@/shared/types/product";
 import type { CartStore } from "@/shared/stores/CartStore";

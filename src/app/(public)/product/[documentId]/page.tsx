@@ -41,6 +41,6 @@ export default async function page({ params }: Props) {
         initialProduct={product}
         initialRelatedProducts={relatedProductsResponse.data}
       />
-    </Suspense>
+    // </Suspense>
   );
 }

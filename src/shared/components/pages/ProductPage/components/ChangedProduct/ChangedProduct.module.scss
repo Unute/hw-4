@@ -25,45 +25,7 @@
 //   }
 // }
 
-.imageContainer {
-  position: relative;
-  display: inline-block;
-  max-width: 600px;
-  border-radius: 4px;
 
-  .image {
-    width: 100%;
-    object-fit: cover;
-
-    @include respond(sm) {
-      width: 100%;
-      max-width: 100%;
-      margin-bottom: 1rem;
-    }
-  }
-
-  .leftBtn,
-  .rightBtn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.7);
-    border: none;
-    cursor: pointer;
-    padding: 8px 12px;
-    font-size: 18px;
-    border-radius: 50%;
-  }
-
-  .leftBtn {
-    left: 8px;
-  }
-
-  .rightBtn {
-    right: 8px;
-  }
-}
 
 .info {
   display: flex;

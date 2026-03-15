@@ -19,6 +19,38 @@
   border-top: 2px solid var(--border-color);
 }
 
+.footerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #323232;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  font-size: 1.1rem;
+  z-index: 1000;
+  opacity: 0.95;
+  animation: toast-fade-in 0.3s;
+}
+
+@keyframes toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) translateX(-50%);
+  }
+  to {
+    opacity: 0.95;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
 .empty {
   display: flex;
   flex-direction: column;

@@ -5,10 +5,12 @@ import { useStore } from '@stores/context'
 import Text from '@UI/Text'
 import s from './CartList.module.scss'
 
+type CartListProps = {
+  onBuyOne: (documentId: string) => void;
+}
 
-const CartList = observer(() => {
+const CartList = observer(({ onBuyOne }: CartListProps) => {
   const { cartStore } = useStore();
-
 
   return (
     <div className={s.items}>
@@ -41,6 +43,12 @@ const CartList = observer(() => {
           <Text weight="bold" className={s.subtotal}>
             ${product.price * quantity}
           </Text>
+          <button
+            className={s.buy}
+            onClick={() => onBuyOne(product.documentId)}
+          >
+            Buy
+          </button>
           <button
             className={s.remove}
             onClick={() => cartStore.removeFromCart(product.documentId)}
