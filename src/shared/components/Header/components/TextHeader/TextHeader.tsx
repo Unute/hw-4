@@ -6,7 +6,7 @@ import Link from "next/link";
 import s from "./TextHeader.module.scss";
 
 const navItems = [
-  { label: "Product", to: "/" },
+  { label: "Products", to: "/" },
   { label: "Categories", to: "/categories" },
   { label: "About us", to: "/about-us" },
 ];

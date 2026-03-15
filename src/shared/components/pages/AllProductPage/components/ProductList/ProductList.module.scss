@@ -27,16 +27,18 @@
   gap: clamp(1rem, 6vw, 5rem);
   width: 100%;
   padding: 2rem clamp(1rem, 6vw, 6.25rem);
-  margin-top: 2rem;
+  margin: 2rem auto 0;
 
   @include respond(lg) {
     grid-template-columns: repeat(2, 1fr);
-    padding: 2rem 1.5rem;
+    padding: 2rem 3.5rem;
     gap: 1.5rem;
   }
 
   @include respond(md) {
     grid-template-columns: repeat(2, 1fr);
+    padding: 2rem 1rem;
+    justify-content: space-between;
   }
 
   @include respond(sm) {

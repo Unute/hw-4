@@ -5,6 +5,7 @@ import MultiDropdown from "@UI/MultiDropdown";
 import Text from "@UI/Text";
 import { useProductListStore } from "../../context";
 import { observer } from "mobx-react-lite";
+import { useDebouncedCallback } from "use-debounce";
 
 type FilterPanelProps = {
   total?: number;
@@ -12,17 +13,37 @@ type FilterPanelProps = {
 
 const FilterPanel = observer(({ total }: FilterPanelProps) => {
   const productListStore = useProductListStore();
-  const sortOptions = ['price', 'rating'] as const
+  const sortOptions = ['price', 'rating'] as const;
+
+  const debouncedSubmit = useDebouncedCallback(
+    () => productListStore.submitSearch(),
+    500
+  );
+
   return (
     <div className={s.FilterPanel}>
       <div className={s.search}>
         <Input
           className={s.input}
           value={productListStore.searchQuery}
-          onChange={productListStore.setSearch}
+          onChange={(value) => {
+            productListStore.setSearch(value);
+            debouncedSubmit();
+          }}
           placeholder="Search product"
         />
-        <Button className={s.button} onClick={() => productListStore.submitSearch()}>Find now</Button>
+        {productListStore.searchQuery && (
+          <Button
+            className={s.button}
+            onClick={() => {
+              debouncedSubmit.cancel();
+              productListStore.setSearch('');
+              productListStore.submitSearch();
+            }}
+          >
+            ✕
+          </Button>
+        )}
       </div>
       <div className={s.filterOption}>
 

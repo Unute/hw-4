@@ -77,7 +77,23 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
           setIsOpen(true);
           setFilter(e);
         }}
-        afterSlot={<ArrowDownIcon color="secondary" />}
+        afterSlot={
+          value.length > 0 ? (
+            <button
+              className={styles.clearBtn}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChange([]);
+                setIsOpen(false);
+              }}
+            >
+              ✕
+            </button>
+          ) : (
+            <ArrowDownIcon color="secondary" />
+          )
+        }
         className={styles["input__down"]}
       />
 

@@ -24,3 +24,19 @@
   max-width: 18.75rem;
   width: 100%;
 }
+
+.clearBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+}
+
+.clearBtn:hover {
+  color: var(--text-primary);
+}
