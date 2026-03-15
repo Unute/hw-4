@@ -32,7 +32,10 @@ export class CartStore {
     try {
       const data = await getCart();
       runInAction(() => { this.items = data; });
-    } catch {
+    } catch (e: any) {
+      if (e?.status === 401 || e?.response?.status === 401) {
+        this._rootStore.authStore.logout();
+      }
       runInAction(() => { this.items = []; });
     } finally {
       runInAction(() => { this.cartLoading = false; });

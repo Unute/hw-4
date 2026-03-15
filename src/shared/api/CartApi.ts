@@ -16,6 +16,7 @@ export const getCart = async (): Promise<CartItem[]> => {
     headers: getAuthHeaders(),
     cache: 'no-store',
   });
+  if (res.status === 401) throw Object.assign(new Error('Unauthorized'), { status: 401 });
   if (!res.ok) return [];
   const json = await res.json();
   return Array.isArray(json) ? json : (json?.data ?? []);
