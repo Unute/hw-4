@@ -1,4 +1,13 @@
 .root {
+  --assistant-panel-border: rgba(173, 126, 92, 0.18);
+  --assistant-panel-surface:
+    radial-gradient(circle at top right, rgba(173, 126, 92, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, var(--bg-elevated) 100%);
+  --assistant-panel-shadow: 0 28px 70px rgba(0, 0, 0, 0.14);
+  --assistant-assistant-bubble: rgba(173, 126, 92, 0.1);
+  --assistant-close-bg: rgba(173, 126, 92, 0.12);
+  --assistant-quick-bg: rgba(173, 126, 92, 0.08);
+  --assistant-divider: rgba(173, 126, 92, 0.12);
   position: fixed;
   right: 24px;
   bottom: 24px;
@@ -7,6 +16,18 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
+}
+
+:global([data-theme='dark']) .root {
+  --assistant-panel-border: rgba(212, 168, 130, 0.24);
+  --assistant-panel-surface:
+    radial-gradient(circle at top right, rgba(212, 168, 130, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(43, 37, 33, 0.98) 0%, rgba(28, 25, 23, 0.98) 100%);
+  --assistant-panel-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+  --assistant-assistant-bubble: rgba(212, 168, 130, 0.12);
+  --assistant-close-bg: rgba(212, 168, 130, 0.14);
+  --assistant-quick-bg: rgba(212, 168, 130, 0.1);
+  --assistant-divider: rgba(212, 168, 130, 0.14);
 }
 
 .trigger {
@@ -50,13 +71,27 @@
   overflow: hidden;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
-  border: 1px solid rgba(173, 126, 92, 0.18);
+  border: 1px solid var(--assistant-panel-border);
   border-radius: 28px;
-  background:
-    radial-gradient(circle at top right, rgba(173, 126, 92, 0.14), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, var(--bg-elevated) 100%);
+  background: var(--assistant-panel-surface);
   backdrop-filter: blur(16px);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--assistant-panel-shadow);
+  color: var(--text-primary);
+  transform-origin: right bottom;
+  transition: opacity 0.22s ease, transform 0.22s ease, filter 0.22s ease;
+}
+
+.panelOpen {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.panelClosed {
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+  filter: blur(4px);
+  pointer-events: none;
 }
 
 .header {
@@ -93,10 +128,15 @@
   height: 36px;
   border: none;
   border-radius: 50%;
-  background: rgba(173, 126, 92, 0.12);
+  background: var(--assistant-close-bg);
   color: var(--text-primary);
   font-size: 22px;
   cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.close:hover {
+  transform: rotate(90deg);
 }
 
 .messages {
@@ -105,6 +145,7 @@
   flex-direction: column;
   gap: 12px;
   padding: 4px 20px 12px;
+  scroll-behavior: smooth;
 }
 
 .assistantMessage,
@@ -121,7 +162,7 @@
 
 .assistantMessage {
   align-self: flex-start;
-  background: rgba(173, 126, 92, 0.1);
+  background: var(--assistant-assistant-bubble);
 }
 
 .userMessage {
@@ -147,12 +188,12 @@
   flex-wrap: wrap;
   gap: 10px;
   padding: 16px 20px 20px;
-  border-top: 1px solid rgba(173, 126, 92, 0.12);
+  border-top: 1px solid var(--assistant-divider);
 }
 
 .quickAction {
   flex: 1 1 140px;
-  border: 1px solid rgba(173, 126, 92, 0.2);
+  border: 1px solid var(--assistant-panel-border);
   border-radius: 999px;
   padding: 12px 14px;
   background: transparent;
@@ -166,7 +207,20 @@
 .quickAction:hover {
   transform: translateY(-1px);
   border-color: var(--brand-warm);
-  background: rgba(173, 126, 92, 0.08);
+  background: var(--assistant-quick-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .trigger,
+  .quickAction,
+  .close {
+    transition: none;
+  }
+
+  .messages {
+    scroll-behavior: auto;
+  }
 }
 
 @media (max-width: 768px) {

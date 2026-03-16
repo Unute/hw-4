@@ -1,54 +1,81 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useStore } from '@stores/context';
+import { AssistantWidgetStore, type ActionLink } from './store/AssistantWidgetStore';
 import s from './AssistantWidget.module.scss';
 
-type ActionLink = {
-  label: string;
-  href: string;
-};
-
-type ChatMessage = {
-  id: string;
-  role: 'assistant' | 'user';
-  text: string;
-  action?: ActionLink;
-};
-
 type QuickActionId = 'checkout' | 'cart' | 'categories';
-
-const createMessage = (
-  role: ChatMessage['role'],
-  text: string,
-  action?: ActionLink,
-): ChatMessage => ({
-  id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-  role,
-  text,
-  action,
-});
 
 const AssistantWidget = observer(() => {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('assistant');
   const { authStore, cartStore, localeStore } = useStore();
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [assistantStore] = useState(() => new AssistantWidgetStore());
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const messagesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setMessages([
-      createMessage('assistant', t('greeting')),
-    ]);
-  }, [localeStore.locale, t]);
+    assistantStore.resetWithGreeting(t('greeting'));
+  }, [assistantStore, localeStore.locale, t]);
+
+  useEffect(() => {
+    if (assistantStore.isOpen) {
+      assistantStore.mount();
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      assistantStore.unmount();
+    }, 220);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [assistantStore, assistantStore.isOpen]);
+
+  useEffect(() => {
+    if (!assistantStore.isMounted || !messagesRef.current) {
+      return;
+    }
+
+    messagesRef.current.scrollTo({
+      top: messagesRef.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  }, [assistantStore.isMounted, assistantStore.isOpen, assistantStore.messages]);
+
+  useEffect(() => {
+    if (!assistantStore.isOpen) {
+      return undefined;
+    }
+
+    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
+      if (!rootRef.current) {
+        return;
+      }
+
+      const target = event.target;
+
+      if (target instanceof Node && !rootRef.current.contains(target)) {
+        assistantStore.close();
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('touchstart', handlePointerDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('touchstart', handlePointerDown);
+    };
+  }, [assistantStore, assistantStore.isOpen]);
 
   const openRoute = (href: string) => {
     router.push(href);
-    setIsOpen(false);
+    assistantStore.close();
   };
 
   const getAnswer = (actionId: QuickActionId): { text: string; action: ActionLink } => {
@@ -98,17 +125,16 @@ const AssistantWidget = observer(() => {
 
     const answer = getAnswer(actionId);
 
-    setMessages((prev) => [
-      ...prev,
-      createMessage('user', questionMap[actionId]),
-      createMessage('assistant', answer.text, answer.action),
-    ]);
+    assistantStore.addExchange(questionMap[actionId], answer.text, answer.action);
   };
 
   return (
-    <div className={s.root}>
-      {isOpen && (
-        <section className={s.panel} aria-label={t('title')}>
+    <div ref={rootRef} className={s.root}>
+      {assistantStore.isMounted && (
+        <section
+          className={`${s.panel} ${assistantStore.isOpen ? s.panelOpen : s.panelClosed}`}
+          aria-label={t('title')}
+        >
           <div className={s.header}>
             <div>
               <p className={s.kicker}>{t('badge')}</p>
@@ -117,7 +143,7 @@ const AssistantWidget = observer(() => {
             <button
               type="button"
               className={s.close}
-              onClick={() => setIsOpen(false)}
+              onClick={assistantStore.close}
               aria-label={t('close')}
             >
               ×
@@ -126,8 +152,8 @@ const AssistantWidget = observer(() => {
 
           <p className={s.subtitle}>{t('subtitle')}</p>
 
-          <div className={s.messages}>
-            {messages.map((message) => (
+          <div ref={messagesRef} className={s.messages}>
+            {assistantStore.messages.map((message) => (
               <div
                 key={message.id}
                 className={message.role === 'assistant' ? s.assistantMessage : s.userMessage}
@@ -163,8 +189,8 @@ const AssistantWidget = observer(() => {
       <button
         type="button"
         className={s.trigger}
-        onClick={() => setIsOpen((prev) => !prev)}
-        aria-label={isOpen ? t('close') : t('trigger')}
+        onClick={assistantStore.toggle}
+        aria-label={assistantStore.isOpen ? t('close') : t('trigger')}
       >
         <span className={s.triggerIcon}>✦</span>
         <span className={s.triggerText}>{t('trigger')}</span>
