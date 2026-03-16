@@ -54,6 +54,32 @@
   gap: 16px;
 }
 
+.addressRow {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.mapBtn {
+  white-space: nowrap;
+  padding: 0 12px;
+  height: 52px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--brand-hover);
+    color: #fff;
+    border-color: var(--brand-hover);
+  }
+}
+
 .actions {
   display: flex;
   gap: 12px;

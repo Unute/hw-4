@@ -2,6 +2,7 @@
 
 import React from 'react'
 import s from "./../../ProductList.module.scss";
+import ps from "./Product.module.scss";
 import Button from "@UI/Button";
 import Card from "@UI/Card";
 import { useRouter } from "next/navigation";
@@ -35,7 +36,10 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
   };
 
   return (
-    <>
+    <div className={ps.wrapper}>
+      {discountedPrice && product.discountPercent && (
+        <span className={ps.badge}>−{product.discountPercent}%</span>
+      )}
       <Card
         image={image}
         captionSlot={
@@ -66,7 +70,7 @@ const Product: React.FC<ProductProps> = observer(({ product, image, discountedPr
           )
         }
       />
-    </>
+    </div>
   )
 })
 

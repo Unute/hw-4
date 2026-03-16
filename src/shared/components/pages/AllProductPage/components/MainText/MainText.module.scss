@@ -15,6 +15,20 @@
   font-size: 2.75rem;
   line-height: 109%;
   color: var(--text-primary);
+  position: relative;
+  display: inline-block;
+  text-align: center;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--brand), var(--brand-active, #e05252), var(--brand));
+    background-size: 200% 100%;
+    margin-top: 8px;
+    animation: shimmer 2.5s linear infinite;
+  }
 
   @include respond(md) {
     font-size: 2rem;
@@ -28,6 +42,11 @@
     font-size: 1.25rem;
     line-height: 110%;
   }
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
 }
 
 .description {

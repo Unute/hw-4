@@ -14,6 +14,16 @@ type CategoriesProps = {
   initialCategories?: Option[];
 };
 
+const getCategoryImage = (categoryTitle: string): string => {
+  const imageMap: Record<string, string> = {
+    'Electronics': '/Categories/electronic-devices.jpg',
+    'Shoes': '/Categories/shoes.jpg',
+    'Furniture': '/Categories/firniture.jpg',
+    'Miscellaneous': '/Categories/misc.jpg',
+  };
+  return imageMap[categoryTitle] || '';
+};
+
 const Categories = observer(({ initialCategories }: CategoriesProps) => {
   const productListStore = useLocalObservable(() => new ProductListStore());
   const router = useRouter();
@@ -35,16 +45,20 @@ const Categories = observer(({ initialCategories }: CategoriesProps) => {
 
   return (
     <div className={s.categoriesContainer}>
-      <div className={s.title}>Категории товаров</div>
+      <h1 className={s.title}>Категории товаров</h1>
       <div className={s.categoryList}>
         {productListStore.categories.map((cat, id) => (
-          <div
+          <button
             className={s.categoryItem}
             key={id}
             onClick={() => router.push(`/?categories=${cat.key}`)}
+            type="button"
+            style={{
+              backgroundImage: `url('${getCategoryImage(cat.value)}')`,
+            }}
           >
-            {cat.value}
-          </div>
+            <span>{cat.value}</span>
+          </button>
         ))}
       </div>
     </div>

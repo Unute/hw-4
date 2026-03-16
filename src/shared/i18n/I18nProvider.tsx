@@ -13,7 +13,11 @@ const I18nProvider = observer(({ children }: { children: ReactNode }) => {
   const { localeStore } = useStore();
 
   return (
-    <NextIntlClientProvider locale={localeStore.locale} messages={messages[localeStore.locale]}>
+    <NextIntlClientProvider
+      locale={localeStore.locale}
+      messages={messages[localeStore.locale]}
+      timeZone="Europe/Moscow"
+    >
       {children}
     </NextIntlClientProvider>
   );

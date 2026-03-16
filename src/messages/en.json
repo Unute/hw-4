@@ -52,6 +52,9 @@
     "cvv": "CVV",
     "cancel": "Cancel",
     "confirm": "Confirm purchase",
+    "pickOnMap": "📍 Pick on map",
+    "mapConfirm": "Select",
+    "mapLoading": "Loading...",
     "errors": {
       "name": "Enter your name",
       "address": "Enter your address",
