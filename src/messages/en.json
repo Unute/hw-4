@@ -87,5 +87,31 @@
   "mainText": {
     "title": "Product",
     "description": "We display products based on the latest products we have, if you want to see our old products please enter the name of the item"
+  },
+  "assistant": {
+    "trigger": "Assistant",
+    "close": "Close assistant",
+    "badge": "Lalasia Helper",
+    "title": "How can I help?",
+    "subtitle": "This is a quick site helper. It can point you to the right page and speed up common actions.",
+    "greeting": "I can quickly help you find the cart, open categories, or explain how checkout works.",
+    "suggestions": {
+      "checkout": "How do I place an order?",
+      "cart": "Where is the cart?",
+      "categories": "Show categories"
+    },
+    "answers": {
+      "checkoutAuth": "Checkout starts from the cart. Open it, review your items, and confirm the purchase for one item or the whole cart.",
+      "checkoutGuest": "You need to sign in first. After that, the cart will be available and you can complete the order there.",
+      "cartFilled": "Your cart is ready: {count} items for ${total}. I can open it right away.",
+      "cartEmpty": "The cart is available from the header and on its own page. It is empty right now, but I can open it for you.",
+      "categories": "The categories page helps you browse products by direction. Open it now?",
+      "categoriesCurrent": "You are already on the categories page. Pick a direction to continue browsing products."
+    },
+    "actions": {
+      "openCart": "Open cart",
+      "openCategories": "Open categories",
+      "openRegister": "Go to sign in"
+    }
   }
 }

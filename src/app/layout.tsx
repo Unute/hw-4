@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Header from "@/shared/components/Header";
+import AssistantWidget from "@/shared/components/AssistantWidget/AssistantWidget";
 import { RootStoreProvider } from "@stores/context";
 import I18nProvider from "@/shared/i18n/I18nProvider";
 import "@/shared/styles/style.scss";
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="App">
               {children}
             </div>
+            <AssistantWidget />
           </I18nProvider>
         </RootStoreProvider>
       </body>

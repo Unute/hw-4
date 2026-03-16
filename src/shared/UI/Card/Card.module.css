@@ -71,3 +71,14 @@
   white-space: nowrap;
   margin-top: auto;
 }
+
+@media (max-width: 576px) {
+  .card__text {
+    padding: 10px 8px 12px;
+  }
+
+  .card__content-action {
+    padding: 8px 0 0;
+    flex-wrap: wrap;
+  }
+}
