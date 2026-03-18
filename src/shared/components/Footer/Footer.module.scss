@@ -57,6 +57,8 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 2rem;
+  justify-items: center;
+  text-align: center;
 
   @include respond(sm) {
     grid-template-columns: 1fr;
