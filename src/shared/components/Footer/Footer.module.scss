@@ -1,0 +1,115 @@
+@use '@styles/mixins' as *;
+
+.footer {
+  background-color: var(--bg-surface);
+  border-top: 2px solid var(--bg-border);
+  margin-top: 4rem;
+  padding: 3rem 0 1.5rem;
+
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      #518581 0%,
+      #AD7E5C 25%,
+      #A6D8D1 50%,
+      #AD7E5C 75%,
+      #518581 100%
+    );
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+  }
+
+  @include respond(md) {
+    padding: 2rem 0 1rem;
+    margin-top: 2rem;
+  }
+
+  @include respond(sm) {
+    padding: 1.5rem 0 0.75rem;
+    margin-top: 1.5rem;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  @include respond(md) {
+    padding: 0 1rem;
+  }
+
+  @include respond(sm) {
+    padding: 0 0.5rem;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @include respond(sm) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.section {
+  h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  a {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+}
+
+.bottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--bg-border);
+
+  p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  @include respond(sm) {
+    padding-top: 1rem;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
